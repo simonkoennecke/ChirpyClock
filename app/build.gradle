@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+    }
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
+    defaultConfig {
+        applicationId "de.farbtrommel.zwitscherwecker"
+        minSdkVersion 14
+        targetSdkVersion 20
+        versionCode 3
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "REST_URI", "\"https://farbtrommel.de/api/v1/zwitscherwecker/stats/\""
+        }
+        release {
+            runProguard false
+            buildConfigField "String", "REST_URI", "\"https://farbtrommel.de/api/v1/zwitscherwecker/stats/\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:18.0.+'
+}

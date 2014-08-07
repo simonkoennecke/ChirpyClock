@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">zzZwitscherwecker</string>
+    <string name="action_settings">Information</string>
+    <string name="action_start_quiz">Trainieren</string>
+
+    <!-- Alarm Activity Screen -->
+    <string name="txtLabel">Label</string>
+    <string name="btnDayMon">MO</string>
+    <string name="btnDayTue">DI</string>
+    <string name="btnDayWed">MI</string>
+    <string name="btnDayThu">DO</string>
+    <string name="btnDayFri">FR</string>
+    <string name="btnDaySat">SA</string>
+    <string name="btnDaySun">SO</string>
+    <string name="btnRepeat">Wiederholen</string>
+
+    <!-- Alarm Manager -->
+    <string name="alarm_repeat_without_a_weekday">Es muss mindestens ein Wochentag ausgewählt werden</string>
+    <string name="alarm_turned_off">Alarm aktiviert</string>
+    <string name="alarm_turned_on">Alarm deaktiviert</string>
+    <string name="title_activity_quiz">zzZitschwerwecker</string>
+    <string name="quiz_question">Welcher Vogel ist zu hören?</string>
+    <string name="quiz_details_more_information">MEHR INFORMATION</string>
+    <string name="quiz_details_head_label">Richtig!</string>
+
+    <string name="info_tab_title_author">Autoren</string>
+    <string name="info_tab_title_credentials">Credentials</string>
+    <string name="info_tab_title_privacy">Datenschutz</string>
+    <string-array name="author_list">
+        <item>Anne, Redakteurin, Kulturmanagerin und Nachtigall, singt gerne nachts, findet den Morgen grauselig und ist gern auf Wanderschaft</item>
+        <item>Maria Sigal, Studentin der Informatik und Bülbül Vogel, mag essen und schlafen</item>
+        <item>Stephanie Weber, User Experience Designer, liebt die Farben und Geräusche exotischer Vögel genauso wie den bunten Geschmack kolumbianischer Früchte</item>
+        <item>David Gómez, kolumbianischer Grafikdesigner, ist schon durch viele Orte der Welt geflogen und zwitschert seit einem Jahr aus Hamburg</item>
+        <item>Simon, Student der Informatik, Hobby Freiberufler und Seeadler, bei der Beobachtung trinkt er gerne auch mal ein Bier und gleitet gerne über die Meere</item>
+    </string-array>
+
+    <string-array name="credentials_list">
+        <item>Vogelstimmen wurden vom Museum für Naturkunde Berlin zur Verfügung geste (Creative Commons (CC BY-SA 3.0))</item>
+        <item>Zusammenfassung kommen aus der Wikipedia und wurde mit der DBpedia abgerufen</item>
+        <item>Uhu is from Softeis. The picture is under Lizenz Creative-Commons-Lizenz 3.0</item>
+        <item>Blaukehlchen is from Bogomolov.PL. The picture is under Lizenz Creative-Commons-Lizenz 3.0</item>
+        <item>Heidelerche is from Rodrigo de Almeida. The picture is under Lizenz Creative-Commons-Lizenz 2.0</item>
+        <item>Steinkauz is from Arturo Nikolai. The picture is under Lizenz Creative-Commons-Lizenz 2.0</item>
+        <item>Pirol is from Dixi. The picture is under Lizenz Creative-Commons-Lizenz 3.0</item>
+        <item>Singschwan is from Andreas Trepte. The picture is under Lizenz Creative Commons Attribution-Share Alike 2.5 Generic</item>
+        <item>Gartenrotschwanz is from Debot. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Nachtigall is from J. Dietrich. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Silbermöwe is from Kulac. The picture is under Lizenz Creative Commons Attribution-Share Alike 2.5 Generic</item>
+        <item>Fitis is from Andreas Trepte. The picture is under Lizenz Creative Commons Attribution-Share Alike 2.5 Generic</item>
+        <item>Stieglitz is from Pierre Dalous. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Feldsperling is from Laitche. The picture is under Lizenz Public domain</item>
+        <item>Goldammer is from Alan Vernon. The picture is under Lizenz Creative Commons Attribution 2.0 Generic</item>
+        <item>Zilpzalp, Weidenlaubsänger is from Hans Hillewaert. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Graugans is from H005. The picture is under Lizenz Public domain</item>
+        <item>Eichelhäher is from Luc Viatour. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Buntspecht is from Steffen Hannert. The picture is under Lizenz Creative Commons Attribution 3.0 Unported</item>
+        <item>Blässhuhn is from Noodle snacks. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Rotkehlchen is from PierreSelim. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Graureiher is from JJ Harrison. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Mäusebussard is from Arend. The picture is under Lizenz Creative Commons Attribution 2.0 Generic</item>
+        <item>Rabenkrähe is from BS Thurner Hof. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Ringeltaube is from Tristan Ferne. The picture is under Lizenz Creative Commons Attribution 2.0 Generic</item>
+        <item>Mehlschwalbe is from Ómar Runólfsson. The picture is under Lizenz Creative Commons Attribution 2.0 Generic</item>
+        <item>Buchfink is from Andreas Trepte. The picture is under Lizenz Creative Commons Attribution-Share Alike 2.5 Generic</item>
+        <item>Kranich is from Marek Szczepanek. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Kohlmeise is from Luc Viatour. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Kormoran is from Miya. The picture is under Lizenz Creative Commons Attribution-Share Alike 3.0 Unported</item>
+        <item>Elster is from Teemu Lehtinen. The picture is under Lizenz Creative Commons Attribution 2.0 Generic</item>
+        <item>Turmfalke is from Andreas Trepte. The picture is under Lizenz Creative Commons Attribution-Share Alike 2.5 Generic</item>
+    </string-array>
+
+    <string-array name="credentials_link_list" formatted="false">
+        <item>http://www.species-id.net/openmedia/Category:Media_by_Tierstimmenarchiv_MfN</item>
+        <item>http://dbpedia.org/About</item>
+        <item>http://commons.wikimedia.org/wiki/File:Uhu-muc.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Luscinia_svecica_volgae.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Lullula_arborea_Rodrigo%29de_Almeida.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Mochuelo_Com%C3%BAn_%28_Athene_noctua_%29%281%29.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Oriole_2.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Singschwan.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Gekraagde_Roodstaart_20040627.JPG</item>
+        <item>http://commons.wikimedia.org/wiki/File:Nachtigall_%28Luscinia_megarhynchos%29-2.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Larus_argentatus01.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Willow_Warbler_Phylloscopus_trochilus.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Carcar.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Tree_Sparrow_Japan_Flip.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Emberiza_citrinella_-New_Zealand_-North_Island-8.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Phylloscopus_collybita_%28taxobox%29.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Graugans_Anser_Anser.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Garrulus_glandarius_1_Luc_Viatour.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Buntspecht_Dendrocopos_major-2.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Eurasian_Coot.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Rouge_gorge_familier_-_crop_%28WB_correction%29.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Ardea_cinerea_-_Pak_Thale.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Buteo_buteo_-Netherlands-8.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Corvus_corone_Rabenkr%C3%A4he_1.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Columba_palumbus_-garden_post-8.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Delichon_urbicum_-Iceland_-flying-8.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Chaffinch_%28Fringilla_coelebs%29.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Grus_grus_1_%28Marek_Szczepanek%29.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Parus_major_2_Luc_Viatour.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Phalacrocorax_carbo_ja01.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Pica_pica_-Helsinki%2C_Finland-8a.jpg</item>
+        <item>http://commons.wikimedia.org/wiki/File:Common_kestrel_falco_tinnunculus.jpg</item>
+    </string-array>
+
+    <string-array name="privacy_list">
+        <item>Wir möchten Sie drauf hinweisen, dass die App mit einem Server Kommuniziert. Es werden keine Person bezogenen Daten erhoben. Nach einem Alarm werden an www.farbtrommel.de folgende Werte übermittelt:</item>
+        <item>Weckzeit</item>
+        <item>Dauer des Alarms</item>
+        <item>Anzahl der Versuche</item>
+        <item>Auswahlmöglichkeiten</item>
+        <item>Richtige Antwort</item>
+        <item>Alle erhobene Daten werden unter www.farbtrommel.de veröffentlicht.</item>
+    </string-array>
+</resources>

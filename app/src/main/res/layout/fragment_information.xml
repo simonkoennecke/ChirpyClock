@@ -1,0 +1,93 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.farbtrommel.zwitscherwecker.InformationFragment"
+    android:background="@color/info_background">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TabHost
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/tabHost"
+        android:visibility="visible"
+        android:clickable="false">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:tabStripEnabled="false"
+                android:baselineAligned="false"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <LinearLayout
+                    android:id="@+id/Author"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:showDividers="middle|end">
+
+                    <ListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/listView"
+                        android:entries="@array/author_list"
+                        android:fastScrollAlwaysVisible="false"
+                        android:padding="10dp"
+                        android:smoothScrollbar="false"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="10sp"
+                        android:drawSelectorOnTop="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Credentials"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:showDividers="beginning|middle|end"
+                    android:visibility="invisible">
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewCredentials"
+                        android:entries="@array/credentials_list"
+                        android:fastScrollAlwaysVisible="false"
+                        android:padding="10dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Privacy"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="invisible"
+                    android:showDividers="beginning|middle|end">
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listView3"
+                        android:padding="10dp"
+                        android:entries="@array/privacy_list"
+                        android:fastScrollAlwaysVisible="false"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="10sp"/>
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+</FrameLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="InputBg">#66000000</color>
+    <color name="InputText">#FFFFFFFF</color>
+    <color name="InputBgHighlight">#FF6CBD98</color>
+    <color name="ButtonBackgroundColor">#AAFFFFFF</color>
+
+    <color name="quiz_answer_default">#00FFFFFF</color>
+    <color name="quiz_answer_wrong">#66FF0000</color>
+    <color name="quiz_answer_right">#6600FF00</color>
+    <color name="quiz_answer_label_shadow">#FF000000</color>
+
+    <color name="info_background">#FFFFFFFF</color>
+
+</resources>
