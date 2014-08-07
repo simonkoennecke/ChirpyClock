@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by simon_000 on 02.08.2014.
@@ -27,11 +28,15 @@ public class QuizSet {
      * @throws java.io.IOException
      */
     private void loadXml() throws IOException, XmlPullParserException {
-        //XmlResourceParser xrp = _context.getAssets().openXmlResourceParser("birds.xml");
+
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setValidating(false);
         XmlPullParser xrp = factory.newPullParser();
-        InputStream raw =_context.getAssets().open("birds.xml");
+        String filename = "birds@en.xml";
+        if(Locale.getDefault().equals(Locale.GERMANY)){
+            filename = "birds@de.xml";
+        }
+        InputStream raw =_context.getAssets().open(filename);
         xrp.setInput(raw, null);
 
         xrp.next();

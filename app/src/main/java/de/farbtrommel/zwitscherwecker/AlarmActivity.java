@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -14,9 +15,12 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
+
+import java.util.Locale;
 
 
 public class AlarmActivity extends FragmentActivity implements TimePicker.OnTimeChangedListener, TextWatcher, View.OnClickListener, InformationFragment.OnFragmentInteractionListener {
@@ -69,12 +73,17 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
         setRepeat(_alarmSettings.getRepeat());
         setWeekdays(_alarmSettings.getWeekdays());
 
-        timepicker.setIs24HourView(true);
+        if(Locale.getDefault().equals(Locale.GERMANY)) {
+            timepicker.setIs24HourView(true);
+        }else{
+            timepicker.setIs24HourView(false);
+        }
 
 
         //Setup listener
         timepicker.setOnTimeChangedListener(this);
         txtLabel.addTextChangedListener(this);
+        txtLabel.setOnClickListener(this);
         switchStatus.setOnClickListener(this);
         checkBox.setOnClickListener(this);
         for(ToggleButton btn : weekdays)
@@ -193,17 +202,40 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
         setTime(i,i2);
     }
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+    }
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
     @Override
     public void afterTextChanged(Editable editable) { setLabel();  }
     @Override
     public void onClick(View view) {
-        setSwitchStatus();
-        setRepeat();
-        setWeekdays();
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        if (view.getId() == R.id.txtLabel) {
+            final Handler handler = new Handler();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            setSwitchStatus();
+            setRepeat();
+            setWeekdays();
+        }
     }
+
     @Override
     public void onBackPressed() {
         if(_infoFragment.getVisibility() == View.VISIBLE) {

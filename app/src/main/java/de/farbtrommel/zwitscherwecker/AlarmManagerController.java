@@ -61,7 +61,7 @@ public class AlarmManagerController implements SharedPreferences.OnSharedPrefere
     private long getNextAlarmTime(){
         final Calendar calendar = new GregorianCalendar();
 
-        int dayOfTheWeek  =  calendar.get(Calendar.DAY_OF_WEEK);//weekday
+        int dayOfTheWeek  =  calendar.get(Calendar.DAY_OF_WEEK) - 1;//weekday
         int dayOfTheMonth = calendar.get(Calendar.DATE);//day of month
 
         //Alarm time today pasted?
@@ -72,12 +72,15 @@ public class AlarmManagerController implements SharedPreferences.OnSharedPrefere
         }
 
         String weekdays = (_alarmSettings.getRepeat())?_alarmSettings.getWeekdays():"1111111";
+        //convert string
+        //Sunday = 1, Monday = 2, .., Saturday=7
+        weekdays = "x"+((weekdays.charAt(6)=='1')?"1":"0")+weekdays;
 
         //Find next valid Weekday
         while(true){
-            if(weekdays.charAt(dayOfTheWeek-1) == '1')
+            if(weekdays.charAt(dayOfTheWeek) == '1')
                 break;
-            dayOfTheWeek = (dayOfTheWeek + 1) % 7;
+            dayOfTheWeek = (dayOfTheWeek % 7) +1;
             dayOfTheMonth += 1;
         }
         GregorianCalendar wakeTime = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), dayOfTheMonth, _time[0], _time[1], 0);

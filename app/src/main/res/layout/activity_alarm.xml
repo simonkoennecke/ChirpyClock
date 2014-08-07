@@ -55,7 +55,8 @@
                 android:padding="5dp"
                 android:autoText="true"
                 android:clickable="true"
-                android:background="@color/InputBg" />
+                android:background="@color/InputBg"
+                android:windowSoftInputMode="adjustPan"/>
 
             <CheckBox
                 android:layout_width="wrap_content"

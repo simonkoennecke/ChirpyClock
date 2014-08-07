@@ -3,7 +3,7 @@
 
     <string name="app_name">zzZwitscherwecker</string>
     <string name="action_settings">Information</string>
-    <string name="action_start_quiz">Training</string>
+    <string name="action_start_quiz">Train</string>
 
     <!-- Alarm Activity Screen -->
     <string name="txtLabel">Label</string>
@@ -21,7 +21,7 @@
     <string name="alarm_turned_off">Alarm turned off</string>
     <string name="alarm_turned_on">Alarm turned on</string>
     <string name="title_activity_quiz">QuizActivity</string>
-    <string name="quiz_question">How is chirping?</string>
+    <string name="quiz_question">Who is chirping?</string>
     <string name="quiz_details_more_information">MORE INFORMATION</string>
     <string name="quiz_details_head_label">Right!</string>
 
