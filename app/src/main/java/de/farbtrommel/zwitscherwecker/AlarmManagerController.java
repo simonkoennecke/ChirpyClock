@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -39,9 +40,10 @@ public class AlarmManagerController implements SharedPreferences.OnSharedPrefere
 
         AlarmManager am=(AlarmManager)_context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(_context, AlarmManagerReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(_context, 0, intent, 0);
-        //TODO getNextAlarmTime doesn't return the right thing
-        am.set(AlarmManager.RTC_WAKEUP, getNextAlarmTime(), pi); // Millisec * Second * Minute
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+        long time = getNextAlarmTime();
+        _alarmSettings.setNextAlarmTime(time);
+        am.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
     }
 
     /**
@@ -66,15 +68,18 @@ public class AlarmManagerController implements SharedPreferences.OnSharedPrefere
 
         //Alarm time today pasted?
         int _time[] = _alarmSettings.getTime();
-        if(calendar.get(Calendar.HOUR_OF_DAY) >= _time[0] && calendar.get(Calendar.MINUTE) > _time[1]){
-            dayOfTheWeek += 1; //ring at next day
+        if(//ok the alarm is for the next day, when
+           calendar.get(Calendar.HOUR_OF_DAY) > _time[0] || // the hour is past
+          (calendar.get(Calendar.HOUR_OF_DAY) == _time[0] && calendar.get(Calendar.MINUTE) > (_time[1]-1)) //same hour but the minutes in past
+        ){
+            dayOfTheWeek += 1; //ring on next day
             dayOfTheMonth += 1;
         }
 
         String weekdays = (_alarmSettings.getRepeat())?_alarmSettings.getWeekdays():"1111111";
         //convert string
         //Sunday = 1, Monday = 2, .., Saturday=7
-        weekdays = "x"+((weekdays.charAt(6)=='1')?"1":"0")+weekdays;
+        weekdays = ""+((weekdays.charAt(6)=='1')?"1":"0")+weekdays;
 
         //Find next valid Weekday
         while(true){
@@ -84,7 +89,6 @@ public class AlarmManagerController implements SharedPreferences.OnSharedPrefere
             dayOfTheMonth += 1;
         }
         GregorianCalendar wakeTime = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), dayOfTheMonth, _time[0], _time[1], 0);
-
         return wakeTime.getTimeInMillis();
     }
     @Override

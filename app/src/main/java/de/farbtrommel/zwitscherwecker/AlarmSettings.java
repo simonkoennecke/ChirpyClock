@@ -88,6 +88,19 @@ public class AlarmSettings extends AsyncTask<String, String, String> {
         }
 
     }
+
+    protected long getNextAlarmTime(){
+        return settings.getLong("alarmTime",0);
+    }
+    protected void setNextAlarmTime(long alarmTime){
+        if(!(getNextAlarmTime() == alarmTime)){
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong("alarmTime", alarmTime);
+            editor.commit();
+        }
+
+    }
+
     protected Boolean getBuzzerStatus(){
         return settings.getBoolean("status",STATUS);
     }

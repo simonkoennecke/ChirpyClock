@@ -18,9 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class AlarmActivity extends FragmentActivity implements TimePicker.OnTimeChangedListener, TextWatcher, View.OnClickListener, InformationFragment.OnFragmentInteractionListener {
@@ -93,6 +98,10 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
     @Override
     protected void onStop() {
         super.onStop();
+        //Display the next alarm time
+        displayNextAlarm();
+
+        //Save alle Settings
         setSwitchStatus();
         setTime();
         setLabel();
@@ -192,7 +201,10 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
             return true;
         }
         else if (id == R.id.action_start_quiz) {
-            startActivity(new Intent(this,QuizActivity.class));
+            Intent intentStartQuizActivity = new Intent(this, QuizActivity.class);
+            intentStartQuizActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intentStartQuizActivity.putExtra(QuizActivity.ARG_RUN_FLAG, QuizActivity.ARG_RUN_FLAG_TRAIN);
+            startActivity(intentStartQuizActivity);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -249,5 +261,40 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private void displayNextAlarm(){
+
+        Calendar calendar = new GregorianCalendar();
+        long diffInMillisec = _alarmSettings.getNextAlarmTime() - calendar.getTimeInMillis();
+        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec);
+        diffInSec/= 60;
+        long minutes =diffInSec % 60;
+        diffInSec /= 60;
+        long hours = diffInSec % 24;
+        diffInSec /= 24;
+        long days = diffInSec;
+
+        String pattern = "";
+        if(days == 0 && hours == 0 && minutes == 1){
+            pattern = getResources().getString(R.string.alarm_show_min, minutes);
+        }
+        else if(days == 0 && hours == 0 && minutes > 1){
+            pattern = getResources().getString(R.string.alarm_show_mins, minutes);
+        }
+        else if(days == 0 && hours == 1 && minutes > 1){
+            pattern = getResources().getString(R.string.alarm_show_hour_mins, hours, minutes);
+        }
+        else if(days == 0 && hours > 1 && minutes > 1){
+            pattern = getResources().getString(R.string.alarm_show_hours_mins, hours, minutes);
+        }
+        else if(days == 1 && hours > 1 && minutes > 1){
+            pattern = getResources().getString(R.string.alarm_show_day_hour_mins, days, hours, minutes );
+        }
+        else if(days > 1 && hours > 1 && minutes > 1){
+            pattern = getResources().getString(R.string.alarm_show_days_hours_mins, days, hours, minutes );
+        }
+        if(!(pattern==""))
+        Toast.makeText(this, pattern, Toast.LENGTH_SHORT).show();
     }
 }

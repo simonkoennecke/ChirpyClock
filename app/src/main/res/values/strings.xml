@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">zzZwitscherwecker</string>
+    <string name="app_name">ChirpyClock</string>
     <string name="action_settings">Information</string>
     <string name="action_start_quiz">Train</string>
 
@@ -16,6 +16,15 @@
     <string name="btnDaySun">SUN</string>
     <string name="btnRepeat">Repeat</string>
 
+
+    <string name="alarm_show_min">Alarm set for %1$d Minute from now</string>
+    <string name="alarm_show_mins">Alarm set for %1$d Minutes from now</string>
+    <string name="alarm_show_hour_mins">Alarm set for %1$d Hour, and %2$d Minutes from now</string>
+    <string name="alarm_show_hours_mins">Alarm set for %1$d Hours, and %2$d Minutes from now</string>
+    <string name="alarm_show_day_hour_mins">Alarm set for %1$d Day, %2$d Hours, and %3$d Minutes from now</string>
+    <string name="alarm_show_days_hours_mins">Alarm set for %1$d Days, %2$d Hours, and %3$d Minutes from now</string>
+
+
     <!-- Alarm Manager -->
     <string name="alarm_repeat_without_a_weekday">You need to choose at least one weekday</string>
     <string name="alarm_turned_off">Alarm turned off</string>
@@ -23,7 +32,7 @@
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="quiz_question">Who is chirping?</string>
     <string name="quiz_details_more_information">MORE INFORMATION</string>
-    <string name="quiz_details_head_label">Right!</string>
+    <string name="quiz_details_head_label">Correct!</string>
 
     <string name="info_tab_title_author">Authors</string>
     <string name="info_tab_title_credentials">Credentials</string>
@@ -37,7 +46,7 @@
     </string-array>
 
     <string-array name="credentials_list">
-        <item>Bird calls provide by "Museum für Naturkunde" Berlin (Creative Commons (CC BY-SA 3.0))</item>
+        <item>Birdcalls provide by "Museum für Naturkunde" Berlin (Creative Commons (CC BY-SA 3.0))</item>
         <item>Abstracts come from Wikipedia and was loaded with DBpedia</item>
         <item>Eagle owl is from Softeis. The picture is under license Creative-Commons-License 3.0</item>
         <item>Bluethroat is from Bogomolov.PL. The picture is under license Creative-Commons-License 3.0</item>

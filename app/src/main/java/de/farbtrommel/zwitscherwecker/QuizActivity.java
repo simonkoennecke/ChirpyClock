@@ -34,6 +34,13 @@ import java.util.Random;
 public class QuizActivity extends FragmentActivity implements View.OnClickListener {
     //Delay
     private static int ACTION_DELAY = 700;
+
+    //Typoe of Run
+    public static String ARG_RUN_FLAG = "ARG_RUN_FLAG";
+    public static int ARG_RUN_FLAG_ALARM = 1;
+    public static int ARG_RUN_FLAG_TRAIN = 2;
+    public static int ARG_RUN_FLAG_ELSE = 3;
+    private int ARG_RUN_FLAG_VALUE = ARG_RUN_FLAG_ALARM;
     //Variable Container
     private AlarmSettings _alarmSettings;
 
@@ -59,6 +66,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
         setContentView(R.layout.activity_quiz);
 
         _fragmentDetails = (View) findViewById(R.id.quiz_details_fragment);
@@ -66,7 +74,11 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
 
 
                 _alarmSettings = new AlarmSettings(PreferenceManager.getDefaultSharedPreferences(this));
+        //Setup Media Player
         _mMediaPlayer = new MediaPlayer();
+
+
+
         _btnBackground = new LinearLayout[]{
                 (LinearLayout) findViewById(R.id.answer1),
                 (LinearLayout) findViewById(R.id.answer2),
@@ -88,10 +100,14 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
         _lblTime = (TextView) findViewById(R.id.txtTime);
         _lblDate = (TextView) findViewById(R.id.txtDate);
 
-
+        //Set on Click Event Listener
         for(ImageButton btn : _btn){
             btn.setOnClickListener(this);
         }
+
+        //Get Intent parameter
+        parseIntent();
+
         try {
             if(!_quizIsRunning) {
                 _quizSet = new QuizSet(this);
@@ -104,45 +120,73 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
         }
 
     }
-    protected void onResume (){
-        super.onResume();
-        try {
-            if(!_quizIsRunning) {
-                startGame();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+/*
+    protected void onRestart(){
+        super.onRestart();
+        parseIntent();
+        if(!_quizIsRunning &&
+            (ARG_RUN_FLAG_VALUE == ARG_RUN_FLAG_ALARM || ARG_RUN_FLAG_VALUE == ARG_RUN_FLAG_TRAIN)){
+               startGame();
         }
+    }
+*/
+    private void parseIntent(){
+        Intent intent = getIntent();
+        if(intent.hasExtra(ARG_RUN_FLAG))
+            ARG_RUN_FLAG_VALUE = intent.getIntExtra(ARG_RUN_FLAG, ARG_RUN_FLAG_ALARM);
+        else
+            ARG_RUN_FLAG_VALUE = ARG_RUN_FLAG_ELSE;
+
+    }
+
+    protected void onPause(){
+        super.onPause();
+        //Attention: During the wake up process the activity get paused!!!
+        if(!(ARG_RUN_FLAG_VALUE == ARG_RUN_FLAG_ALARM))
+            finish();
     }
 
     protected void onDestroy(){
         super.onDestroy();
         closeNotification();
-        _mMediaPlayer.stop();
+
+        //Clean Media Player shutdown
+        if(_mMediaPlayer.isPlaying())
+            _mMediaPlayer.stop();
+        _mMediaPlayer.reset();
+        _mMediaPlayer.release();
+
     }
 
-    private void startGame() throws IOException {
-        resetControlElements();
-        createNotification(_alarmSettings.getLabel());
-        _quizRandomNumberSet = generateCorrectAnswers(31);
+    private void startGame(){
+        try {
+            resetControlElements();
+            createNotification(_alarmSettings.getLabel());
+            _quizRandomNumberSet = generateCorrectAnswers(31);
 
-        _quizStats = new QuizStats(_quizRandomNumberSet[_quizRandomNumberSet[4]],
-                new int[]{_quizRandomNumberSet[0],
-                        _quizRandomNumberSet[1],
-                        _quizRandomNumberSet[2],
-                        _quizRandomNumberSet[3]},_alarmSettings.getId());
+            _quizStats = new QuizStats(_quizRandomNumberSet[_quizRandomNumberSet[4]],
+                    new int[]{_quizRandomNumberSet[0],
+                            _quizRandomNumberSet[1],
+                            _quizRandomNumberSet[2],
+                            _quizRandomNumberSet[3]}, _alarmSettings.getId()
+            );
 
-        setTime(_alarmSettings.getHour(), _alarmSettings.getMinute());
-        setLabel(_alarmSettings.getLabel());
-        setImages();
-        playAlarmSound(_quizRandomNumberSet[_quizRandomNumberSet[4]]);
-        _quizIsRunning = true;
+            setTime(_alarmSettings.getHour(), _alarmSettings.getMinute());
+            setLabel(_alarmSettings.getLabel());
+            setImages();
+            playAlarmSound(_quizRandomNumberSet[_quizRandomNumberSet[4]]);
+            _quizIsRunning = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     private void setTime(int hour, int time){
         _lblTime.setText(((hour < 10)?"0":"")+String.valueOf(hour)+":"+((time<10)?"0":"")+String.valueOf(time));
         Format dateFormat = android.text.format.DateFormat.getLongDateFormat(getApplicationContext());
         _lblDate.setText(dateFormat.format(new Date()));
     }
+
     private void setLabel(String label){
         setAlarmLabel(label);
         for(int i=0; i < _lbl.length; i++){
@@ -173,7 +217,6 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
     private int[] generateCorrectAnswers(int maxExclusive){
         int[] rnd = new int[5];
         Random random = new Random();
-        random.setSeed(Calendar.getInstance().get(Calendar.SECOND));
         int i=0;
         while(true){
             rnd[i] = random.nextInt(maxExclusive);
@@ -230,7 +273,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
     /**
      * Play bird call as alarm sound
      * @param id
-     * @throws IOException
+     * @throws java.io.IOException
      */
     private void playAlarmSound(int id) throws IOException {
         AssetFileDescriptor afd = null;
@@ -240,15 +283,28 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
             _mMediaPlayer.stop();
 
         _mMediaPlayer.reset();
-        afd = getAssets().openFd("sounds/"+String.valueOf(id)+".mp3");
-        _mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-        if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-            _mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-            _mMediaPlayer.setLooping(true);
-            _mMediaPlayer.prepare();
-            _mMediaPlayer.start();
-        }
 
+        afd = getAssets().openFd("sounds/"+String.valueOf(id)+".mp3");
+
+        if(ARG_RUN_FLAG_VALUE == ARG_RUN_FLAG_ALARM) {
+            _mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            _mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+            _mMediaPlayer.prepare();
+            if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+                _mMediaPlayer.setLooping(true);
+                _mMediaPlayer.start();
+            }
+        }
+        else {
+            _mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            _mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            _mMediaPlayer.prepare();
+            if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) != 0) {
+                _mMediaPlayer.setLooping(true);
+                _mMediaPlayer.start();
+
+            }
+        }
     }
 
     @Override
@@ -311,11 +367,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        startGame();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    startGame();
                 }
             }, ACTION_DELAY);
 
@@ -348,6 +400,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void quizFinal() {
+        ARG_RUN_FLAG_VALUE = ARG_RUN_FLAG_ELSE;
         _mMediaPlayer.stop();
         _quizIsRunning=false;
         closeNotification();
