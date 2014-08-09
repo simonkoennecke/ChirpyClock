@@ -16,6 +16,13 @@
     <string name="btnDaySun">SO</string>
     <string name="btnRepeat">Wiederholen</string>
 
+    <string name="alarm_show_min">Alarm set for %1$d Minute from now</string>
+    <string name="alarm_show_mins">Alarm set for %1$d Minutes from now</string>
+    <string name="alarm_show_hour_mins">Alarm set for %1$d Hour, and %2$d Minutes from now</string>
+    <string name="alarm_show_hours_mins">Alarm set for %1$d Hours, and %2$d Minutes from now</string>
+    <string name="alarm_show_day_hour_mins">Alarm set for %1$d Day, %2$d Hours, and %3$d Minutes from now</string>
+    <string name="alarm_show_days_hours_mins">Alarm set for %1$d Days, %2$d Hours, and %3$d Minutes from now</string>
+
     <!-- Alarm Manager -->
     <string name="alarm_repeat_without_a_weekday">Es muss mindestens ein Wochentag ausgewählt werden</string>
     <string name="alarm_turned_off">Alarm aktiviert</string>

@@ -276,7 +276,8 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
         long days = diffInSec;
 
         String pattern = "";
-        if(days == 0 && hours == 0 && minutes == 1){
+        if(days == 0 && hours == 0 && minutes <= 1){
+            minutes = (minutes==0)?1:minutes;
             pattern = getResources().getString(R.string.alarm_show_min, minutes);
         }
         else if(days == 0 && hours == 0 && minutes > 1){
