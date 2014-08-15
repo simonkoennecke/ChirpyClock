@@ -1,0 +1,25 @@
+#OSX
+.DS_STORE
+
+#Gradle
+build/
+.gradle/
+local.properties
+
+#Maven
+target/
+
+#IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+#Eclipse
+.classpath
+.project
+.settings/
+project.properties
+gen/
+bin/

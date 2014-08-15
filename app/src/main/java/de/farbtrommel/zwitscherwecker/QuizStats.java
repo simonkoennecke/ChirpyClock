@@ -22,26 +22,25 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Created by simon_000 on 05.08.2014.
- */
 public class QuizStats extends AsyncTask<String, String, String> {
-    private Date start = new Date();
-    private Date end = null;
-    private int clickCount = 0;
-    private String deviceId;
-    private int correctAnswer;
-    private int[] possible;
+    private Date mStart = new Date();
+    private Date mEnd = null;
+    private int mClickCount = 0;
+    private String mDeviceId;
+    private int mCorrectAnswer;
+    private int[] mPossible;
 
-    public QuizStats(){}
-    public QuizStats(int correctAnswer, int[] possible, String deviceId){
-        this.deviceId = deviceId;
-        this.correctAnswer = correctAnswer;
-        this.possible = possible;
+    public QuizStats() {
+
+    }
+    public QuizStats(int correctAnswer, int[] possible, String deviceId) {
+        this.mDeviceId = deviceId;
+        this.mCorrectAnswer = correctAnswer;
+        this.mPossible = possible;
     }
 
-    public int getClickCount(){
-        return clickCount;
+    public int getClickCount() {
+        return mClickCount;
     }
 
     @Override
@@ -66,7 +65,7 @@ public class QuizStats extends AsyncTask<String, String, String> {
             params.add(new BasicNameValuePair("deviceid", strings[5]));
 
             String strparam  = AlarmSettings.getQuery(params);
-            Log.d("Stats",strparam);
+            Log.d("Stats", strparam);
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
@@ -79,7 +78,9 @@ public class QuizStats extends AsyncTask<String, String, String> {
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
             String inputLine;
-            while ((inputLine = in.readLine()) != null){}
+            while ((inputLine = in.readLine()) != null) {
+
+            }
                 //System.out.println(inputLine);
             in.close();
 
@@ -99,21 +100,22 @@ public class QuizStats extends AsyncTask<String, String, String> {
 
     }
 
-    public void incClickCounter(){
-        clickCount++;
+    public void incClickCounter() {
+        mClickCount++;
     }
 
-    public void transmit(boolean nextRound){
-        if(end == null)
-            end = new Date();
+    public void transmit(boolean nextRound) {
+        if (mEnd == null)
+            mEnd = new Date();
 
         new QuizStats().execute(
-                String.valueOf(start.getTime()),
-                String.valueOf(((nextRound)?0:end.getTime())),
-                String.valueOf(clickCount),
-                String.valueOf(correctAnswer),
-                String.valueOf(possible[0])+","+String.valueOf(possible[1])+","+String.valueOf(possible[2])+","+String.valueOf(possible[3]),
-                deviceId
+                String.valueOf(mStart.getTime()),
+                String.valueOf(((nextRound) ? 0 : mEnd.getTime())),
+                String.valueOf(mClickCount),
+                String.valueOf(mCorrectAnswer),
+                String.valueOf(mPossible[0]) + "," + String.valueOf(mPossible[1])
+                        + "," + String.valueOf(mPossible[2]) + "," + String.valueOf(mPossible[3]),
+                mDeviceId
                 );
 
     }

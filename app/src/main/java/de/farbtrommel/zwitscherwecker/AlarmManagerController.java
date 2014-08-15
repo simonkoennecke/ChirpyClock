@@ -9,110 +9,120 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
-public class AlarmManagerController implements SharedPreferences.OnSharedPreferenceChangeListener{
-    final private Context _context;
+public class AlarmManagerController implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private final Context mContext;
 
     /**
-     * toast
+     * Toast instance.
      */
-    private Toast toast;
+    private Toast mToast;
     /**
-     * Alarm Settings
+     * Alarm Settings.
      */
-    AlarmSettings _alarmSettings;
+    AlarmSettings mAlarmSettings;
 
     public AlarmManagerController(Context context, AlarmSettings alarmSettings) {
-        _context = context;
-        _alarmSettings = alarmSettings;
+        mContext = context;
+        mAlarmSettings = alarmSettings;
     }
 
     /**
-     * Setup Alarm clock
+     * Setup Alarm clock.
      */
-    public void setAlarm(){
-        if(!_alarmSettings.getBuzzerStatus() || (_alarmSettings.getRepeat() && _alarmSettings.getWeekdays().equals("0000000")))//Alarm clock is off
+    public void setAlarm() {
+        if (!mAlarmSettings.getBuzzerStatus() || (mAlarmSettings.getRepeat()
+                && mAlarmSettings.getWeekdays().equals("0000000"))) //Alarm clock is off
             return;
 
-        AlarmManager am=(AlarmManager)_context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(_context, AlarmManagerReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+        AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(mContext, AlarmManagerReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
         long time = getNextAlarmTime();
-        _alarmSettings.setNextAlarmTime(time);
+        mAlarmSettings.setNextAlarmTime(time);
         am.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
     }
 
     /**
-     * Clear the alarm clock
+     * Clear the alarm clock.
      */
-    public void clearAlarm(){
-        Intent intent = new Intent(_context, AlarmManagerReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(_context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+    public void clearAlarm() {
+        Intent intent = new Intent(mContext, AlarmManagerReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(mContext, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
     }
 
     /**
-     * Calculate the next alarm time and return the timestamp
+     * Calculate the next alarm time and return the timestamp.
      * @return timestamp of the next ring time
      */
-    private long getNextAlarmTime(){
+    private long getNextAlarmTime() {
         final Calendar calendar = new GregorianCalendar();
 
-        int dayOfTheWeek  =  calendar.get(Calendar.DAY_OF_WEEK) - 1;//weekday
-        int dayOfTheMonth = calendar.get(Calendar.DATE);//day of month
+        int dayOfTheWeek  =  calendar.get(Calendar.DAY_OF_WEEK) - 1; //weekday
+        int dayOfTheMonth = calendar.get(Calendar.DATE); //day of month
 
         //Alarm time today pasted?
-        int _time[] = _alarmSettings.getTime();
-        if(//ok the alarm is for the next day, when
-           calendar.get(Calendar.HOUR_OF_DAY) > _time[0] || // the hour is past
-          (calendar.get(Calendar.HOUR_OF_DAY) == _time[0] && calendar.get(Calendar.MINUTE) > (_time[1]-1)) //same hour but the minutes in past
-        ){
+        int[] time = mAlarmSettings.getTime();
+        if (//ok the alarm is for the next day, when
+           calendar.get(Calendar.HOUR_OF_DAY) > time[0] || // the hour is past
+          (calendar.get(Calendar.HOUR_OF_DAY) == time[0]
+                  && calendar.get(Calendar.MINUTE) > (time[1] - 1)) //same hour but the min. in past
+        ) {
             dayOfTheWeek += 1; //ring on next day
             dayOfTheMonth += 1;
         }
 
-        String weekdays = (_alarmSettings.getRepeat())?_alarmSettings.getWeekdays():"1111111";
+        String weekdays = (mAlarmSettings.getRepeat()) ? mAlarmSettings.getWeekdays() : "1111111";
         //convert string
         //Sunday = 1, Monday = 2, .., Saturday=7
-        weekdays = ""+((weekdays.charAt(6)=='1')?"1":"0")+weekdays;
+        weekdays = "" + ((weekdays.charAt(6) == '1') ? "1" : "0") + weekdays;
 
         //Find next valid Weekday
-        while(true){
-            if(weekdays.charAt(dayOfTheWeek) == '1')
+        while (true) {
+            if (weekdays.charAt(dayOfTheWeek) == '1')
                 break;
-            dayOfTheWeek = (dayOfTheWeek % 7) +1;
+            dayOfTheWeek = (dayOfTheWeek % 7) + 1;
             dayOfTheMonth += 1;
         }
-        GregorianCalendar wakeTime = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), dayOfTheMonth, _time[0], _time[1], 0);
+        GregorianCalendar wakeTime = new GregorianCalendar(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH), dayOfTheMonth, time[0], time[1], 0);
         return wakeTime.getTimeInMillis();
     }
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if(s.equals("weekdays") ||s.equals("status") || s.equals("hour") || s.equals("minute") || s.equals("repeat")){
+        if (s.equals("weekdays") || s.equals("status") || s.equals("hour")
+                || s.equals("minute") || s.equals("repeat")) {
             clearAlarm();
             setAlarm();
-            Log.d("AlarmManager",_alarmSettings.toString());
+            Log.d("AlarmManager", mAlarmSettings.toString());
 
             //Toast Notifications
-            try {toast.cancel();} catch (NullPointerException e){ }
-            if(_alarmSettings.getRepeat() && _alarmSettings.getWeekdays().equals("0000000")){
-                toast = Toast.makeText(_context, _context.getResources().getString(R.string.alarm_repeat_without_a_weekday), Toast.LENGTH_LONG);
-                toast.show();
-            }
-            else if(s.equals("status") && !_alarmSettings.getBuzzerStatus()){
-                toast = toast.makeText(_context, _context.getResources().getString(R.string.alarm_turned_off), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            else if(s.equals("status")){
-                toast = toast.makeText(_context, _context.getResources().getString(R.string.alarm_turned_on), Toast.LENGTH_LONG);
-                toast.show();
+            try {
+                mToast.cancel();
+            } catch (NullPointerException e) {
             }
 
+            if (mAlarmSettings.getRepeat() && mAlarmSettings.getWeekdays().equals("0000000")) {
+                mToast = Toast.makeText(mContext,
+                        mContext.getResources().getString(R.string.alarm_repeat_without_a_weekday),
+                        Toast.LENGTH_LONG);
+                mToast.show();
+            } else if (s.equals("status") && !mAlarmSettings.getBuzzerStatus()) {
+                mToast = mToast.makeText(mContext,
+                        mContext.getResources().getString(R.string.alarm_turned_off),
+                        Toast.LENGTH_SHORT);
+                mToast.show();
+            } else if (s.equals("status")) {
+                mToast = mToast.makeText(mContext,
+                        mContext.getResources().getString(R.string.alarm_turned_on),
+                        Toast.LENGTH_LONG);
+                mToast.show();
+            }
         }
 
     }

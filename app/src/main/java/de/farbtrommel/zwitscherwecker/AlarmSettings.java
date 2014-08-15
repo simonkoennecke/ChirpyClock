@@ -23,144 +23,148 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 public class AlarmSettings extends AsyncTask<String, String, String> {
-    SharedPreferences settings;
     /**
-     * Alarm: Active or inactive?
+     * SharedPreferences reference.
      */
-    private final static boolean STATUS = false;
+    SharedPreferences mSharedPref;
     /**
-     * Repeat the alarm clock
+     * Default alarm status is inaktive.
      */
-    private final static boolean REPEAT = false;
+    private static final boolean STATUS = false;
     /**
-     * Select specific weekdays when the alarm should ring.
+     * Repeat the alarm clock.
      */
-    private final static String WEEKDAYS = "0000000";
+    private static final boolean REPEAT = false;
     /**
-     * Alarm time {hour, minute}
+     * Select specific mWeekdays when the alarm should ring.
      */
-    private final static int[] TIME = new int[]{12, 0};
+    private static final String WEEKDAYS = "0000000";
     /**
-     *
+     * Default alarm time {hour, minute}.
      */
-    private final static boolean IS_RING = false;
+    private static final int[] TIME = new int[]{12, 0};
+    /**
+     * Default IS_RING value.
+     */
+    private static final boolean IS_RING = false;
 
-    public AlarmSettings(SharedPreferences settings){
-        this.settings = settings;
-        if(settings.getString("id", "NA") == "NA"){
+    public AlarmSettings(SharedPreferences pref) {
+        mSharedPref = pref;
+        if (mSharedPref.getString("id", "NA") == "NA") {
             this.execute();
         }
     }
-    protected String getId(){
-        return settings.getString("id", "NA");
+    protected String getId() {
+        return mSharedPref.getString("id", "NA");
     }
     protected boolean getRing() {
-        return settings.getBoolean("ring", IS_RING);
+        return mSharedPref.getBoolean("ring", IS_RING);
     }
-    protected void setRing(boolean ring){
-        if(!(getRing() == ring)) {
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setRing(boolean ring) {
+        if (!(getRing() == ring)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putBoolean("ring", ring);
             editor.commit();
         }
     }
 
-    protected String getWeekdays(){
-        return settings.getString("weekdays", WEEKDAYS);
+    protected String getWeekdays() {
+        return mSharedPref.getString("weekdays", WEEKDAYS);
     }
 
-    protected void setWeekdays(String str){
-        if(!getWeekdays().equals(str)) {
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setWeekdays(String str) {
+        if (!getWeekdays().equals(str)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putString("weekdays", str);
             editor.commit();
         }
     }
 
-    protected Boolean getRepeat(){
-        return settings.getBoolean("repeat",REPEAT);
+    protected Boolean getRepeat() {
+        return mSharedPref.getBoolean("repeat", REPEAT);
     }
-    protected void setRepeat(boolean status){
-        if(!(getRepeat() == status)){
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setRepeat(boolean status) {
+         if (!(getRepeat() == status)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putBoolean("repeat", status);
             editor.commit();
         }
-
     }
 
-    protected long getNextAlarmTime(){
-        return settings.getLong("alarmTime",0);
+    protected long getNextAlarmTime() {
+        return mSharedPref.getLong("alarmTime", 0);
     }
-    protected void setNextAlarmTime(long alarmTime){
-        if(!(getNextAlarmTime() == alarmTime)){
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setNextAlarmTime(long alarmTime) {
+        if (!(getNextAlarmTime() == alarmTime)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putLong("alarmTime", alarmTime);
             editor.commit();
         }
-
     }
 
-    protected Boolean getBuzzerStatus(){
-        return settings.getBoolean("status",STATUS);
+    protected Boolean getBuzzerStatus() {
+        return mSharedPref.getBoolean("status", STATUS);
     }
 
 
-    protected void setStatus(boolean status){
-        if(!(getBuzzerStatus() == status)){
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setStatus(boolean status) {
+        if (!(getBuzzerStatus() == status)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putBoolean("status", status);
             editor.commit();
         }
     }
-    protected String getLabel(){
-        return settings.getString("label","");
+    protected String getLabel() {
+        return mSharedPref.getString("label", "");
     }
 
-    protected void setLabel(String label){
-        if(!getLabel().equals(label)) {
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setLabel(String label) {
+        if (!getLabel().equals(label)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putString("label", label);
             editor.commit();
         }
     }
-    protected int[] getTime(){
-        return new int[]{settings.getInt("hour", TIME[0]), settings.getInt("minute", TIME[1])};
+    protected int[] getTime() {
+        return new int[]{mSharedPref.getInt("hour", TIME[0]),
+                mSharedPref.getInt("minute", TIME[1])};
     }
 
-    protected void setTime(int hour, int minute){
-        if(!(getHour() == hour) || !(getMinute()==minute)) {
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setTime(int hour, int minute) {
+        if (!(getHour() == hour) || !(getMinute() == minute)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putInt("hour", hour);
             editor.putInt("minute", minute);
             editor.commit();
         }
     }
 
-    protected int getHour(){
-        return settings.getInt("hour", TIME[0]);
+    protected int getHour() {
+        return mSharedPref.getInt("hour", TIME[0]);
     }
 
-    protected void setHour(int hour){
-        if(!(getHour() == hour)) {
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setHour(int hour) {
+        if (!(getHour() == hour)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putInt("hour", hour);
             editor.commit();
         }
     }
-    protected int getMinute(){
-        return settings.getInt("minute", TIME[1]);
+    protected int getMinute() {
+        return mSharedPref.getInt("minute", TIME[1]);
     }
 
-    protected void setMinute(int minute){
-        if(!(getMinute()==minute)) {
-            SharedPreferences.Editor editor = settings.edit();
+    protected void setMinute(int minute) {
+        if (!(getMinute() == minute)) {
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putInt("minute", minute);
             editor.commit();
         }
     }
-    public String toString(){
-        return "DeviceId:"+getId()+", Repeat:"+getRepeat()+", Status:"+ getBuzzerStatus()+", Hour:"+getHour()+", Minute:"+getMinute()+", Weekday:"+getWeekdays();
+    public String toString() {
+        return "DeviceId:" + getId() + ", Repeat:" + getRepeat()
+                + ", Status:" +  getBuzzerStatus() + ", Hour:" + getHour()
+                + ", Minute:" + getMinute() + ", Weekday:" + getWeekdays();
     }
 
 
@@ -195,8 +199,8 @@ public class AlarmSettings extends AsyncTask<String, String, String> {
             in.close();
 
             //Store Device Id to Key Value Database
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("id", inputLine );
+            SharedPreferences.Editor editor = mSharedPref.edit();
+            editor.putString("mId", inputLine);
             editor.commit();
 
             return inputLine;
@@ -212,13 +216,11 @@ public class AlarmSettings extends AsyncTask<String, String, String> {
         return "error";
     }
 
-    static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-    {
+    static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
 
-        for (NameValuePair pair : params)
-        {
+        for (NameValuePair pair : params) {
             if (first)
                 first = false;
             else

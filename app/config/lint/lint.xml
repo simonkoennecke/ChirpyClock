@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+
+    <issue id="Overdraw">
+        <!-- drawer needs a solid background -->
+        <ignore path="src/main/res/layout/fragment_drawer.xml" />
+    </issue>
+
+</lint>
