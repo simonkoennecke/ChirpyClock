@@ -27,12 +27,12 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
-public class AlarmActivity extends FragmentActivity implements TimePicker.OnTimeChangedListener,
+public class MainActivity extends FragmentActivity implements TimePicker.OnTimeChangedListener,
         TextWatcher, View.OnClickListener, InformationFragment.OnFragmentInteractionListener {
 
-    protected AlarmSettings mAlarmSettings;
+    protected SettingsStorage mSettingsStorage;
 
-    protected AlarmManagerController mAlarmManager;
+    protected AlarmController mAlarmManager;
 
     protected TimePicker mTimepicker;
     protected EditText mTxtLabel;
@@ -52,8 +52,8 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
 
         //Connect to shared preferences store
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        mAlarmSettings = new AlarmSettings(settings);
-        mAlarmManager = new AlarmManagerController(this, mAlarmSettings);
+        mSettingsStorage = new SettingsStorage(settings);
+        mAlarmManager = new AlarmController(this, mSettingsStorage);
         settings.registerOnSharedPreferenceChangeListener(mAlarmManager);
         //Connect var and form element
         mTimepicker = (TimePicker) findViewById(R.id.timePicker);
@@ -71,11 +71,11 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
                 (ToggleButton) findViewById(R.id.btnDaySun)};
 
         // Load all information form shared preferences
-        setSwitchStatus(mAlarmSettings.getBuzzerStatus());
-        setTime(mAlarmSettings.getHour(), mAlarmSettings.getMinute());
-        setLabel(mAlarmSettings.getLabel());
-        setRepeat(mAlarmSettings.getRepeat());
-        setWeekdays(mAlarmSettings.getWeekdays());
+        setSwitchStatus(mSettingsStorage.getBuzzerStatus());
+        setTime(mSettingsStorage.getHour(), mSettingsStorage.getMinute());
+        setLabel(mSettingsStorage.getLabel());
+        setRepeat(mSettingsStorage.getRepeat());
+        setWeekdays(mSettingsStorage.getWeekdays());
 
         if (Locale.getDefault().equals(Locale.GERMANY)) {
             mTimepicker.setIs24HourView(true);
@@ -123,7 +123,7 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
             if (!(bool == mWeekdays[i].isChecked()))
                 mWeekdays[i].toggle();
         }
-        mAlarmSettings.setWeekdays(str);
+        mSettingsStorage.setWeekdays(str);
     }
 
     protected Boolean getRepeat() {
@@ -141,7 +141,7 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
         else
             mWeekdayContainer.setVisibility(View.INVISIBLE);
 
-        mAlarmSettings.setRepeat(status);
+        mSettingsStorage.setRepeat(status);
 
     }
     protected Boolean getSwitchStatus() {
@@ -154,14 +154,14 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
         if (!(status == mSwitchStatus.isChecked()))
             mSwitchStatus.toggle();
 
-        mAlarmSettings.setStatus(status);
+        mSettingsStorage.setStatus(status);
     }
     protected String getLabel() {
         return mTxtLabel.getText().toString();
     }
     protected void setLabel() {
         String label = getLabel();
-        mAlarmSettings.setLabel(label);
+        mSettingsStorage.setLabel(label);
     }
     protected void setLabel(String label) {
         if (!label.equals(mTxtLabel.toString()))
@@ -177,8 +177,8 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
     protected void setTime(int hour, int minute) {
         mTimepicker.setCurrentHour(hour);
         mTimepicker.setCurrentMinute(minute);
-        if (!(mAlarmSettings.getHour() == hour) || !(mAlarmSettings.getMinute() == minute)) {
-            mAlarmSettings.setTime(hour, minute);
+        if (!(mSettingsStorage.getHour() == hour) || !(mSettingsStorage.getMinute() == minute)) {
+            mSettingsStorage.setTime(hour, minute);
         }
     }
 
@@ -264,7 +264,7 @@ public class AlarmActivity extends FragmentActivity implements TimePicker.OnTime
     private void displayNextAlarm() {
 
         Calendar calendar = new GregorianCalendar();
-        long diffInMillisec = mAlarmSettings.getNextAlarmTime() - calendar.getTimeInMillis();
+        long diffInMillisec = mSettingsStorage.getNextAlarmTime() - calendar.getTimeInMillis();
         long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec);
         diffInSec /= 60;
         long minutes = diffInSec % 60;

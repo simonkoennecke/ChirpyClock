@@ -64,7 +64,7 @@ public class QuizStats extends AsyncTask<String, String, String> {
             params.add(new BasicNameValuePair("options", strings[4]));
             params.add(new BasicNameValuePair("deviceid", strings[5]));
 
-            String strparam  = AlarmSettings.getQuery(params);
+            String strparam  = SettingsStorage.getQuery(params);
             Log.d("Stats", strparam);
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(

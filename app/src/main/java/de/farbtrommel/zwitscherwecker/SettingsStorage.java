@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class AlarmSettings extends AsyncTask<String, String, String> {
+public class SettingsStorage extends AsyncTask<String, String, String> {
     /**
      * SharedPreferences reference.
      */
@@ -48,7 +48,7 @@ public class AlarmSettings extends AsyncTask<String, String, String> {
      */
     private static final boolean IS_RING = false;
 
-    public AlarmSettings(SharedPreferences pref) {
+    public SettingsStorage(SharedPreferences pref) {
         mSharedPref = pref;
         if (mSharedPref.getString("id", "NA") == "NA") {
             this.execute();
@@ -185,7 +185,7 @@ public class AlarmSettings extends AsyncTask<String, String, String> {
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
-            writer.write(AlarmSettings.getQuery(params));
+            writer.write(SettingsStorage.getQuery(params));
             writer.flush();
             writer.close();
             os.close();

@@ -41,7 +41,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
     public static final int ARG_RUN_FLAG_ELSE = 3;
     private int mRunFlagValue = ARG_RUN_FLAG_ALARM;
     //Variable Container
-    private AlarmSettings mAlarmSettings;
+    private SettingsStorage mSettingsStorage;
 
     //Layout
     private LinearLayout[] mBtnBackground;
@@ -72,7 +72,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
         mFragmentDetails.setVisibility(View.INVISIBLE);
 
 
-        mAlarmSettings = new AlarmSettings(PreferenceManager.getDefaultSharedPreferences(this));
+        mSettingsStorage = new SettingsStorage(PreferenceManager.getDefaultSharedPreferences(this));
         //Setup Media Player
         mMediaPlayer = new MediaPlayer();
 
@@ -151,18 +151,18 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
     private void startGame() {
         try {
             resetControlElements();
-            createNotification(mAlarmSettings.getLabel());
+            createNotification(mSettingsStorage.getLabel());
             mQuizRandomNumberSet = generateCorrectAnswers(31);
 
             mQuizStats = new QuizStats(mQuizRandomNumberSet[mQuizRandomNumberSet[4]],
                     new int[]{mQuizRandomNumberSet[0],
                             mQuizRandomNumberSet[1],
                             mQuizRandomNumberSet[2],
-                            mQuizRandomNumberSet[3]}, mAlarmSettings.getId()
+                            mQuizRandomNumberSet[3]}, mSettingsStorage.getId()
             );
 
-            setTime(mAlarmSettings.getHour(), mAlarmSettings.getMinute());
-            setLabel(mAlarmSettings.getLabel());
+            setTime(mSettingsStorage.getHour(), mSettingsStorage.getMinute());
+            setLabel(mSettingsStorage.getLabel());
             setImages();
             playAlarmSound(mQuizRandomNumberSet[mQuizRandomNumberSet[4]]);
             mQuizIsRunning = true;
@@ -324,7 +324,7 @@ public class QuizActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (!mQuizIsRunning) {
-            startActivity(new Intent(this, AlarmActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         } else {
             //Do nothing.

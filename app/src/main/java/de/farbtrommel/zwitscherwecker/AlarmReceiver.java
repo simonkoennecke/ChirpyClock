@@ -4,10 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
-public class AlarmManagerReceiver  extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("zwitscherwechker", "Alarm received!");
@@ -22,5 +23,15 @@ public class AlarmManagerReceiver  extends BroadcastReceiver {
                     | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intentStartStartActivity);
         wl.release();
+
+        Log.d("zwitscherwechker", "Alarm received - set new if necessary");
+        SettingsStorage settingsStorage = new SettingsStorage(
+                PreferenceManager.getDefaultSharedPreferences(context));
+        AlarmController alarmController = new AlarmController(context, settingsStorage);
+        if (settingsStorage.getRepeat() == false)
+            settingsStorage.setStatus(false);
+        else
+            alarmController.setAlarm();
+
     }
 }
